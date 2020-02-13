@@ -14,8 +14,9 @@ module RestClient
       connection = build_connection(uri)
       client = transmit(connection, &block)
       raise client.error if client.error
+      start_time = Time.now
       net_http_response = build_net_http_response(client)
-      process_result(net_http_response, &block)
+      process_result(net_http_response, start_time, &block)
     ensure
       payload.close if payload
     end
